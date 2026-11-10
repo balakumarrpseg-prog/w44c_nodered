@@ -1,0 +1,40 @@
+# ============================================================
+# Python libraries for the W44C scripts
+# Lines starting with # are comments; pip ignores them.
+# ============================================================
+#
+# INSTALL EVERYTHING FROM THIS FILE
+#   python -m pip install -r "C:\Users\Administrator\.node-red\W44C\scripts\requirements.txt"
+#
+# UPGRADE PIP
+#   python -m pip install --upgrade pip
+#
+# INSTALL ONE AT A TIME
+#   python -m pip install numpy
+#   python -m pip install pandas
+#   python -m pip install matplotlib
+#   python -m pip install python-kasa
+#
+# INSTALL IN ONE LINE
+#   python -m pip install numpy pandas matplotlib python-kasa
+#
+# INSTALL INTO A SPECIFIC PYTHON (3.13)
+#   "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\python.exe" -m pip install --upgrade pip
+#   "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\python.exe" -m pip install numpy pandas matplotlib python-kasa
+#
+# NOTES
+#   - If you get "Access is denied", add --user after "install".
+#   - Install into the same Python that the Node-RED exec node uses.
+#   - python-kasa is not needed by generate_heatmaps.py (only by other scripts).
+#
+# RUN generate_heatmaps.py FROM THE NODE-RED EXEC NODE
+#   python "C:\Users\Administrator\.node-red\W44C\scripts\generate_heatmaps.py"
+#   (If "python" is not found, use the full path to python.exe, as above.)
+#
+# ------------------------------------------------------------
+# PACKAGES
+# ------------------------------------------------------------
+numpy
+pandas
+matplotlib
+python-kasa

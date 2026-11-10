@@ -1,0 +1,7 @@
+﻿# Back up only W44C/ and flows.json
+/*
+!/.gitignore
+!/W44C/
+!/flows.json
+__pycache__/
+*.pyc
