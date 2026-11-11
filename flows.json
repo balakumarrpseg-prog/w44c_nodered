@@ -40,6 +40,14 @@
         "env": []
     },
     {
+        "id": "4b1d47d5ebc33237",
+        "type": "tab",
+        "label": "FYP",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "f16a3fc6ccd3fac2",
         "type": "ui-base",
         "name": "My Dashboard",
@@ -258,7 +266,7 @@
         "group": "eb960b051f18c793",
         "name": "spacer",
         "tooltip": "",
-        "order": 7,
+        "order": 6,
         "width": 1,
         "height": 1,
         "className": ""
@@ -331,7 +339,7 @@
     {
         "id": "e79a1c694d947afe",
         "type": "ui-page",
-        "name": "CFD",
+        "name": "Heatmap",
         "ui": "f16a3fc6ccd3fac2",
         "path": "/page3",
         "icon": "map-legend",
@@ -550,7 +558,7 @@
     {
         "id": "7c7a0a7196ecb3e3",
         "type": "ui-page",
-        "name": "Controls",
+        "name": "FYP",
         "ui": "f16a3fc6ccd3fac2",
         "path": "/page4",
         "icon": "controller",
@@ -581,15 +589,15 @@
         "tabs": [],
         "order": 4,
         "className": "",
-        "visible": "true",
-        "disabled": "false"
+        "visible": true,
+        "disabled": false
     },
     {
         "id": "d12651e09dfe631f",
         "type": "ui-group",
         "name": "8",
         "page": "7c7a0a7196ecb3e3",
-        "width": 6,
+        "width": "4",
         "height": 1,
         "order": 1,
         "showTitle": false,
@@ -599,6 +607,25 @@
         "groupType": "default",
         "keepLoaded": false,
         "tab": ""
+    },
+    {
+        "id": "b5226ccbbd10b742",
+        "type": "ui-theme",
+        "name": "Theme 2",
+        "colors": {
+            "surface": "#18191b",
+            "primary": "#0d74ce",
+            "bgPage": "#111113",
+            "groupBg": "#212225",
+            "groupOutline": "#363a3f"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
     },
     {
         "id": "cf9164d970216d4b",
@@ -649,7 +676,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 70,
-        "y": 480,
+        "y": 500,
         "wires": [
             [
                 "f408de8c66d99f95"
@@ -760,7 +787,7 @@
         "gridColor": [
             "#ffffff"
         ],
-        "gridColorDefault": false,
+        "gridColorDefault": true,
         "width": "2",
         "height": "3",
         "className": "",
@@ -822,7 +849,7 @@
         "gridColor": [
             "#ffffff"
         ],
-        "gridColorDefault": false,
+        "gridColorDefault": true,
         "width": 2,
         "height": 3,
         "className": "",
@@ -884,7 +911,7 @@
         "gridColor": [
             "#ffffff"
         ],
-        "gridColorDefault": false,
+        "gridColorDefault": true,
         "width": 2,
         "height": 3,
         "className": "",
@@ -1165,32 +1192,22 @@
         "options": [
             {
                 "label": "",
-                "value": "5",
-                "type": "str"
-            },
-            {
-                "label": "",
-                "value": "10",
-                "type": "str"
-            },
-            {
-                "label": "",
                 "value": "15",
                 "type": "str"
             },
             {
                 "label": "",
-                "value": "20",
-                "type": "str"
-            },
-            {
-                "label": "",
-                "value": "25",
-                "type": "str"
-            },
-            {
-                "label": "",
                 "value": "30",
+                "type": "str"
+            },
+            {
+                "label": "",
+                "value": "45",
+                "type": "str"
+            },
+            {
+                "label": "",
+                "value": "60",
                 "type": "str"
             }
         ],
@@ -1318,7 +1335,7 @@
         "type": "function",
         "z": "4cf08c6380837666",
         "name": "Battery",
-        "func": "let mv = parseFloat(msg.payload?.bat);\nif (isNaN(mv)) return null;\n\nlet value = Math.round(mv / 4200 * 100);\nlet vol= (mv / 1000) + \"V\"\n\nmsg.payload = { value, vol };\nreturn msg;\n\n",
+        "func": "let mv = parseFloat(msg.payload?.bat);\nif (isNaN(mv)) return null;\n\nlet value = Math.round(mv / 4200 * 100);\nlet vol= (mv / 1000)\n\nmsg.payload = { value, mv, vol };\nreturn msg;\n\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1329,70 +1346,8 @@
         "y": 320,
         "wires": [
             [
-                "ec23ef1b5fad60a9",
-                "ab939e055bde5fab",
-                "58b9a13a058f6dec"
+                "efb67d26cf643ee9"
             ]
-        ]
-    },
-    {
-        "id": "ec23ef1b5fad60a9",
-        "type": "ui-gauge",
-        "z": "4cf08c6380837666",
-        "name": "",
-        "group": "eb960b051f18c793",
-        "order": 5,
-        "value": "payload.value",
-        "valueType": "msg",
-        "width": "2",
-        "height": "2",
-        "gtype": "gauge-battery",
-        "gstyle": "needle",
-        "title": "",
-        "alwaysShowTitle": false,
-        "floatingTitlePosition": "top-left",
-        "units": "units",
-        "icon": "",
-        "prefix": "",
-        "suffix": "",
-        "segments": [
-            {
-                "from": "0",
-                "color": "#ea5353",
-                "text": "Critical",
-                "textType": "str"
-            },
-            {
-                "from": "85",
-                "color": "#ffc800",
-                "text": "Low",
-                "textType": "str"
-            },
-            {
-                "from": "90",
-                "color": "#5cd65c",
-                "text": "Medium",
-                "textType": "str"
-            },
-            {
-                "from": "95",
-                "color": "#006600",
-                "text": "Good",
-                "textType": "str"
-            }
-        ],
-        "min": 0,
-        "max": "100",
-        "sizeThickness": 16,
-        "sizeGap": 4,
-        "sizeKeyThickness": 8,
-        "styleRounded": true,
-        "styleGlow": false,
-        "className": "",
-        "x": 640,
-        "y": 320,
-        "wires": [
-            []
         ]
     },
     {
@@ -1497,10 +1452,10 @@
         "label": "",
         "format": "{{msg.payload}}",
         "layout": "row-left",
-        "style": false,
+        "style": true,
         "font": "",
-        "fontSize": 16,
-        "color": "#717171",
+        "fontSize": "20",
+        "color": "#3b898f",
         "wrapText": false,
         "className": "",
         "value": "payload",
@@ -1510,44 +1465,64 @@
         "wires": []
     },
     {
-        "id": "ab939e055bde5fab",
-        "type": "ui-text",
+        "id": "efb67d26cf643ee9",
+        "type": "ui-gauge",
         "z": "4cf08c6380837666",
+        "name": "",
         "group": "eb960b051f18c793",
-        "order": 6,
-        "width": 0,
-        "height": 0,
-        "name": "mV",
-        "label": "",
-        "format": "{{msg.payload}}",
-        "layout": "row-left",
-        "style": true,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload.mv",
+        "order": 5,
+        "value": "payload.vol",
         "valueType": "msg",
-        "x": 810,
-        "y": 360,
-        "wires": []
-    },
-    {
-        "id": "58b9a13a058f6dec",
-        "type": "debug",
-        "z": "4cf08c6380837666",
-        "name": "debug 1",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 960,
-        "y": 440,
-        "wires": []
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Battery",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "V",
+        "icon": "battery",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#d65c5c",
+                "text": "Dying",
+                "textType": "str"
+            },
+            {
+                "from": "3.3",
+                "color": "#ffc800",
+                "text": "Low",
+                "textType": "str"
+            },
+            {
+                "from": "3.6",
+                "color": "#adea53",
+                "text": "Mediun",
+                "textType": "str"
+            },
+            {
+                "from": "3.9",
+                "color": "#005800",
+                "text": "Good",
+                "textType": "str"
+            }
+        ],
+        "min": 0,
+        "max": "4.2",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 620,
+        "y": 320,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "b37ad1c248a8cff9",
@@ -1618,7 +1593,7 @@
         "type": "function",
         "z": "dda7df2f560971b1",
         "name": "function 7",
-        "func": "const p = msg.payload;\nmsg.payload = `${p.device ?? \"\"},${p.timestamp ?? \"\"},${p.co2 ?? \"\"},${p.temp ?? \"\"},${p.hum ?? \"\"},${p.bat ?? \"\"}\\n`;\nmsg.filename = global.get('basePath') + 'logs/sensor_data.csv';\nreturn msg;",
+        "func": "const p = msg.payload;\nmsg.payload = `${p.timestamp ?? \"\"},${p.device ?? \"\"},${p.temp ?? \"\"},${p.hum ?? \"\"},${p.co2 ?? \"\"},${p.bat ?? \"\"}\\n`;\nmsg.filename = global.get('basePath') + 'logs/sensor_data.csv';\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1657,8 +1632,8 @@
         "z": "dda7df2f560971b1",
         "group": "1b300cc231a87982",
         "name": "",
-        "label": "SaveNewFile",
-        "order": 3,
+        "label": "Archieve Data CSV",
+        "order": 2,
         "width": "2",
         "height": "1",
         "emulateClick": false,
@@ -1682,7 +1657,7 @@
         "enablePointerup": false,
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
-        "x": 130,
+        "x": 150,
         "y": 360,
         "wires": [
             [
@@ -1695,7 +1670,7 @@
         "type": "function",
         "z": "dda7df2f560971b1",
         "name": "function 8",
-        "func": "const dir = global.get('basePath') + 'logs/';\nconst src = dir + 'sensor_data.csv';\nconst header = 'device,timestamp,co2,temp,hum,bat\\n';\n\n// yymmdd-hhmmss in UTC+8\nconst d = new Date(Date.now() + 8 * 3600 * 1000);\nconst pad = n => String(n).padStart(2, '0');\nconst stamp = `${String(d.getUTCFullYear()).slice(-2)}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}-${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}`;\nconst dest = `${dir}sensor_log_${stamp}.csv`;\n\ntry {\n    if (fs.existsSync(src)) {\n        fs.renameSync(src, dest);          // 1) rename old file\n    }\n    fs.writeFileSync(src, header);         // 2) create new file with header\n    msg.payload = `Archived to sensor_data_${stamp}.csv, new log started`;\n} catch (e) {\n    node.error(e.message, msg);\n    msg.payload = 'Error: ' + e.message;\n}\nreturn msg;",
+        "func": "const dir = global.get('basePath') + 'logs/';\nconst src = dir + 'sensor_data.csv';\n\n// yymmdd-hhmmss in UTC+8, e.g. 261111-134530\nconst stamp = new Date(Date.now() + 8 * 3600 * 1000)\n    .toISOString()              // 2026-11-11T13:45:30.123Z\n    .slice(2, 19)               // 26-11-11T13:45:30\n    .replace(/[-:]/g, '')       // 261111T134530\n    .replace('T', '-');         // 261111-134530\n\nconst dest = `${dir}sensor_log_${stamp}.csv`;\n\nif (fs.existsSync(src)) fs.renameSync(src, dest);\nfs.writeFileSync(src, 'timestamp,device,temp,hum,co2,bat\\n');\n\nmsg.payload = `Archived to sensor_log_${stamp}.csv, new log started`;\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1797,7 +1772,7 @@
         "z": "dda7df2f560971b1",
         "group": "c0ea70a19c2464f1",
         "name": "",
-        "label": "Update frequencies",
+        "label": "Update Summary",
         "order": 2,
         "width": "2",
         "height": "1",
@@ -1881,7 +1856,7 @@
                 "t": "set",
                 "p": "filename",
                 "pt": "msg",
-                "to": "   $globalContext(\"basePath\") & \"output/device_frequencies.csv\"",
+                "to": "   $globalContext(\"basePath\") & \"scripts/device_summary.csv\"",
                 "tot": "jsonata"
             }
         ],
@@ -1947,23 +1922,23 @@
         "type": "ui-table",
         "z": "dda7df2f560971b1",
         "group": "c0ea70a19c2464f1",
-        "name": "",
-        "label": "Frequency",
+        "name": "Summary",
+        "label": "",
         "order": 3,
         "width": 0,
         "height": 0,
         "maxrows": 0,
         "passthru": false,
         "autocols": true,
-        "showSearch": true,
-        "deselect": true,
-        "selectionType": "none",
+        "showSearch": false,
+        "deselect": false,
+        "selectionType": "click",
         "columns": [],
         "mobileBreakpoint": "sm",
         "mobileBreakpointType": "defaults",
         "action": "replace",
         "className": "",
-        "x": 1170,
+        "x": 1160,
         "y": 420,
         "wires": [
             []
@@ -1975,8 +1950,8 @@
         "z": "dda7df2f560971b1",
         "group": "1b300cc231a87982",
         "name": "",
-        "label": "Open Local Folder",
-        "order": 1,
+        "label": "Show in Folder",
+        "order": 3,
         "width": "2",
         "height": "1",
         "emulateClick": false,
@@ -2000,7 +1975,7 @@
         "enablePointerup": false,
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
-        "x": 130,
+        "x": 120,
         "y": 660,
         "wires": [
             [
@@ -2034,7 +2009,7 @@
         "z": "dda7df2f560971b1",
         "group": "c0ea70a19c2464f1",
         "name": "",
-        "label": "Open CSV",
+        "label": "Open Summary CSV",
         "order": 1,
         "width": "2",
         "height": "1",
@@ -2059,7 +2034,7 @@
         "enablePointerup": false,
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
-        "x": 130,
+        "x": 160,
         "y": 580,
         "wires": [
             [
@@ -2088,13 +2063,73 @@
         ]
     },
     {
-        "id": "4bd73026fc1b08bf",
+        "id": "b441c108a2b70235",
+        "type": "function",
+        "z": "dda7df2f560971b1",
+        "name": "cmd",
+        "func": "const basePath = global.get('basePath');\n\nmsg.payload = `python \"${basePath}scripts/SensorCheckCode.py\"`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 440,
+        "wires": [
+            [
+                "ee662ae9915cb954"
+            ]
+        ]
+    },
+    {
+        "id": "413ee61d54c2d8f3",
+        "type": "function",
+        "z": "dda7df2f560971b1",
+        "name": "cmd",
+        "func": "const basePath = global.get('basePath');\n\nmsg.payload = `notepad \"${basePath}scripts/device_summary.csv\"`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 580,
+        "wires": [
+            [
+                "5b9cb42ebc171f89"
+            ]
+        ]
+    },
+    {
+        "id": "3ec01fb5f036d5fd",
+        "type": "function",
+        "z": "dda7df2f560971b1",
+        "name": "cmd",
+        "func": "const basePath = global.get('basePath');\n\nmsg.payload = `explorer ${(basePath + 'logs').replace(/\\//g, '\\\\')}`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 660,
+        "wires": [
+            [
+                "51cf8131b4a5cbcb"
+            ]
+        ]
+    },
+    {
+        "id": "19cda99c54e4b4d1",
         "type": "ui-button",
         "z": "dda7df2f560971b1",
         "group": "1b300cc231a87982",
         "name": "",
-        "label": "Open RPI Folder",
-        "order": 2,
+        "label": "Open Data CSV",
+        "order": 1,
         "width": "2",
         "height": "1",
         "emulateClick": false,
@@ -2118,19 +2153,19 @@
         "enablePointerup": false,
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
-        "x": 130,
-        "y": 760,
+        "x": 720,
+        "y": 580,
         "wires": [
             [
-                "736a0c31d90a9cbd"
+                "29e34e1a57bd1de4"
             ]
         ]
     },
     {
-        "id": "b9e12cffc4e78af9",
+        "id": "b1db0c9afdf2418f",
         "type": "exec",
         "z": "dda7df2f560971b1",
-        "command": "explorer ",
+        "command": "",
         "addpay": "payload",
         "append": "",
         "useSpawn": "false",
@@ -2138,8 +2173,8 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 500,
-        "y": 760,
+        "x": 1050,
+        "y": 580,
         "wires": [
             [],
             [],
@@ -2147,101 +2182,24 @@
         ]
     },
     {
-        "id": "b441c108a2b70235",
+        "id": "29e34e1a57bd1de4",
         "type": "function",
         "z": "dda7df2f560971b1",
         "name": "cmd",
-        "func": "const basePath = global.get('basePath');\nif (!basePath) return null;   // global not set yet\n\nmsg.payload = `python \"${basePath}scripts/SensorCheckCode.py\"`;\nreturn msg;\n",
+        "func": "const basePath = global.get('basePath');\n\nmsg.payload = `notepad \"${basePath}logs/sensor_data.csv\"`;\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 330,
-        "y": 440,
-        "wires": [
-            [
-                "ee662ae9915cb954"
-            ]
-        ]
-    },
-    {
-        "id": "413ee61d54c2d8f3",
-        "type": "function",
-        "z": "dda7df2f560971b1",
-        "name": "cmd",
-        "func": "const basePath = global.get('basePath');\nif (!basePath) return null;   // global not set yet\n\nmsg.payload = `notepad \"${basePath}output/device_frequencies.csv\"`;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 310,
+        "x": 890,
         "y": 580,
         "wires": [
             [
-                "5b9cb42ebc171f89"
+                "b1db0c9afdf2418f"
             ]
         ]
-    },
-    {
-        "id": "3ec01fb5f036d5fd",
-        "type": "function",
-        "z": "dda7df2f560971b1",
-        "name": "cmd",
-        "func": "const basePath = global.get('basePath');\nif (!basePath) return null;   // global not set yet\n\nmsg.payload = `explorer ${(basePath + 'logs').replace(/\\//g, '\\\\')}`;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 310,
-        "y": 660,
-        "wires": [
-            [
-                "51cf8131b4a5cbcb"
-            ]
-        ]
-    },
-    {
-        "id": "736a0c31d90a9cbd",
-        "type": "function",
-        "z": "dda7df2f560971b1",
-        "name": "cmd",
-        "func": "const rpi = global.get('rpi');\nif (!rpi) return null;   // global not set yet\n\nmsg.payload = `explorer ${rpi}`;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 290,
-        "y": 820,
-        "wires": [
-            [
-                "0a32232478ab574c",
-                "b9e12cffc4e78af9"
-            ]
-        ]
-    },
-    {
-        "id": "0a32232478ab574c",
-        "type": "debug",
-        "z": "dda7df2f560971b1",
-        "name": "debug 8",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 440,
-        "y": 820,
-        "wires": []
     },
     {
         "id": "4d49b7d4d55e0d87",
@@ -2329,317 +2287,6 @@
         ]
     },
     {
-        "id": "88689af757ae3586",
-        "type": "change",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "T",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 380,
-        "wires": [
-            [
-                "6f4c3c85a4b5e474"
-            ]
-        ]
-    },
-    {
-        "id": "490dc7af27eabe03",
-        "type": "delay",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "6",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 300,
-        "y": 440,
-        "wires": [
-            [
-                "d6964ad250d15846"
-            ]
-        ]
-    },
-    {
-        "id": "d6964ad250d15846",
-        "type": "change",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "H",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 440,
-        "wires": [
-            [
-                "6f4c3c85a4b5e474"
-            ]
-        ]
-    },
-    {
-        "id": "6f4c3c85a4b5e474",
-        "type": "ui-template",
-        "z": "2d1984899e221b5d",
-        "group": "09a75e9427e7470a",
-        "page": "",
-        "ui": "",
-        "name": "CFD1",
-        "order": 15,
-        "width": "4",
-        "height": "9",
-        "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
-        "noerr": 0,
-        "storeOutMessages": true,
-        "passthru": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 730,
-        "y": 440,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9c1daaae334650c3",
-        "type": "delay",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "9",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 300,
-        "y": 520,
-        "wires": [
-            [
-                "d6a5cbbc82a8a135"
-            ]
-        ]
-    },
-    {
-        "id": "d6a5cbbc82a8a135",
-        "type": "change",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "CO2",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 520,
-        "wires": [
-            [
-                "6f4c3c85a4b5e474"
-            ]
-        ]
-    },
-    {
-        "id": "211567010e4ed81e",
-        "type": "ui-template",
-        "z": "2d1984899e221b5d",
-        "group": "09a75e9427e7470a",
-        "page": "",
-        "ui": "",
-        "name": "CFD2",
-        "order": 16,
-        "width": "4",
-        "height": "9",
-        "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>",
-        "storeOutMessages": true,
-        "passthru": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 730,
-        "y": 700,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "79cfc4a73444e48c",
-        "type": "change",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "T_cfd",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 640,
-        "wires": [
-            [
-                "211567010e4ed81e"
-            ]
-        ]
-    },
-    {
-        "id": "15f85f70c2f363a3",
-        "type": "delay",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "6",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 300,
-        "y": 700,
-        "wires": [
-            [
-                "30f102b3228e02b5"
-            ]
-        ]
-    },
-    {
-        "id": "30f102b3228e02b5",
-        "type": "change",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "H_cfd",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 700,
-        "wires": [
-            [
-                "211567010e4ed81e"
-            ]
-        ]
-    },
-    {
-        "id": "b1429f5eb35c84c3",
-        "type": "delay",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "9",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 300,
-        "y": 780,
-        "wires": [
-            [
-                "f91667e704dca95f"
-            ]
-        ]
-    },
-    {
-        "id": "f91667e704dca95f",
-        "type": "change",
-        "z": "2d1984899e221b5d",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "CO2_cfd",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 780,
-        "wires": [
-            [
-                "211567010e4ed81e"
-            ]
-        ]
-    },
-    {
         "id": "48864055b6a52980",
         "type": "inject",
         "z": "2d1984899e221b5d",
@@ -2653,7 +2300,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "60",
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
@@ -2661,11 +2308,9 @@
         "payload": "",
         "payloadType": "date",
         "x": 110,
-        "y": 60,
+        "y": 40,
         "wires": [
-            [
-                "71bd61037b2aabab"
-            ]
+            []
         ]
     },
     {
@@ -2687,8 +2332,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1240,
-        "y": 40,
+        "x": 1180,
+        "y": 60,
         "wires": [
             [
                 "3255463bd725e3a0"
@@ -2714,7 +2359,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1240,
+        "x": 1180,
         "y": 100,
         "wires": [
             [
@@ -2732,7 +2377,7 @@
         "name": "T",
         "order": 2,
         "width": "4",
-        "height": "9",
+        "height": "6",
         "head": "",
         "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
         "noerr": 0,
@@ -2741,8 +2386,8 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1490,
-        "y": 40,
+        "x": 1370,
+        "y": 60,
         "wires": [
             []
         ]
@@ -2766,8 +2411,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1240,
-        "y": 180,
+        "x": 1180,
+        "y": 140,
         "wires": [
             [
                 "5102f44997b89255"
@@ -2793,8 +2438,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1240,
-        "y": 300,
+        "x": 1180,
+        "y": 260,
         "wires": [
             [
                 "af87c74fc3c4ae0e"
@@ -2820,8 +2465,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1240,
-        "y": 360,
+        "x": 1180,
+        "y": 300,
         "wires": [
             [
                 "c099055e290f2039"
@@ -2847,8 +2492,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1240,
-        "y": 440,
+        "x": 1180,
+        "y": 340,
         "wires": [
             [
                 "7471fa3f31a1db08"
@@ -2865,15 +2510,16 @@
         "name": "H",
         "order": 3,
         "width": "4",
-        "height": "9",
+        "height": "6",
         "head": "",
         "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1490,
+        "x": 1370,
         "y": 100,
         "wires": [
             []
@@ -2889,16 +2535,17 @@
         "name": "co2",
         "order": 4,
         "width": "4",
-        "height": "9",
+        "height": "6",
         "head": "",
         "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1490,
-        "y": 180,
+        "x": 1390,
+        "y": 140,
         "wires": [
             []
         ]
@@ -2921,8 +2568,8 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1490,
-        "y": 300,
+        "x": 1370,
+        "y": 260,
         "wires": [
             []
         ]
@@ -2945,8 +2592,8 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1490,
-        "y": 360,
+        "x": 1370,
+        "y": 300,
         "wires": [
             []
         ]
@@ -2969,8 +2616,8 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1500,
-        "y": 440,
+        "x": 1380,
+        "y": 340,
         "wires": [
             []
         ]
@@ -2987,8 +2634,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1010,
-        "y": 60,
+        "x": 910,
+        "y": 220,
         "wires": [
             [
                 "b08db562cf826dcb",
@@ -3005,7 +2652,7 @@
         "type": "function",
         "z": "2d1984899e221b5d",
         "name": "cmd",
-        "func": "//python C:\\Users\\Admin\\.node-red\\W44C\\scripts\\updateSensorInfo.py\"\n\nconst basePath = global.get('basePath');\nif (!basePath) return null;   // global not set yet\n\nmsg.payload = `python \"${basePath}scripts/updateSensorInfo.py\"`;\nreturn msg;\n",
+        "func": "//python C:\\Users\\Admin\\.node-red\\W44C\\scripts\\updateSensorInfo.py\"\n\nconst basePath = global.get('basePath');\n\nmsg.payload = `python \"${basePath}scripts/updateSensorInfo.py\"`;\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -3033,7 +2680,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 900,
-        "y": 220,
+        "y": 260,
         "wires": []
     },
     {
@@ -3041,7 +2688,7 @@
         "type": "function",
         "z": "2d1984899e221b5d",
         "name": "cmd",
-        "func": "//python \"C:\\Users\\Admin\\.node-red\\W44C\\scripts\\generate_heatmaps_cfd1.py\"\n\nconst basePath = global.get('basePath');\nif (!basePath) return null;   // global not set yet\n\nmsg.payload = `python \"${basePath}scripts/generate_heatmaps_cfd1.py\"`;\nreturn msg;\n",
+        "func": "//python \"C:\\Users\\Admin\\.node-red\\W44C\\scripts\\generate_heatmaps_cfd1.py\"\n\nconst basePath = global.get('basePath');\n\nmsg.payload = `python \"${basePath}scripts/generate_heatmaps_cfd1.py\"`;\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -3068,25 +2715,9 @@
             "03fc4150424f8c4b",
             "fda481da00fc2343"
         ],
-        "x": 275,
-        "y": 60,
+        "x": 435,
+        "y": 100,
         "wires": []
-    },
-    {
-        "id": "df775742d3123bf1",
-        "type": "link in",
-        "z": "2d1984899e221b5d",
-        "name": "link in 2",
-        "links": [
-            "71bd61037b2aabab"
-        ],
-        "x": 795,
-        "y": 60,
-        "wires": [
-            [
-                "42be87cc961654b5"
-            ]
-        ]
     },
     {
         "id": "1b06bd9218632f51",
@@ -3105,88 +2736,191 @@
         ]
     },
     {
-        "id": "03fc4150424f8c4b",
-        "type": "link in",
+        "id": "f38dbffffe38d20d",
+        "type": "ui-template",
         "z": "2d1984899e221b5d",
-        "name": "link in 4",
-        "links": [
-            "71bd61037b2aabab"
-        ],
-        "x": 125,
-        "y": 380,
+        "group": "09a75e9427e7470a",
+        "page": "",
+        "ui": "",
+        "name": "CFD3",
+        "order": 15,
+        "width": "4",
+        "height": "9",
+        "head": "",
+        "format": "<template>\n  <img :src=\"`http://localhost:1880/${img}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n\n<script>\nexport default {\n  data() { return { i: 0 } },\n  computed: {\n    img() { return [this.msg.image1, this.msg.image2, this.msg.image3][this.i] }\n  },\n  mounted() {\n    setInterval(() => { this.i = (this.i + 1) % 3 }, this.msg.delay)\n  }\n}\n</script>",
+        "noerr": 0,
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 830,
+        "y": 540,
         "wires": [
-            [
-                "490dc7af27eabe03",
-                "9c1daaae334650c3",
-                "0339f9553769bf2a"
-            ]
+            []
         ]
     },
     {
-        "id": "fda481da00fc2343",
-        "type": "link in",
-        "z": "2d1984899e221b5d",
-        "name": "link in 5",
-        "links": [
-            "71bd61037b2aabab"
-        ],
-        "x": 125,
-        "y": 660,
-        "wires": [
-            [
-                "15f85f70c2f363a3",
-                "b1429f5eb35c84c3",
-                "312f2650b1d6c266"
-            ]
-        ]
-    },
-    {
-        "id": "0339f9553769bf2a",
-        "type": "delay",
+        "id": "77dbe67835f435fb",
+        "type": "change",
         "z": "2d1984899e221b5d",
         "name": "",
-        "pauseType": "delay",
-        "timeout": "3",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 300,
-        "y": 380,
+        "rules": [
+            {
+                "t": "set",
+                "p": "image1",
+                "pt": "msg",
+                "to": "T",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "image2",
+                "pt": "msg",
+                "to": "H",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "image3",
+                "pt": "msg",
+                "to": "CO2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 540,
         "wires": [
             [
-                "88689af757ae3586"
+                "f38dbffffe38d20d"
             ]
         ]
     },
     {
-        "id": "312f2650b1d6c266",
-        "type": "delay",
+        "id": "ba6abb2d89c37272",
+        "type": "ui-template",
+        "z": "2d1984899e221b5d",
+        "group": "09a75e9427e7470a",
+        "page": "",
+        "ui": "",
+        "name": "CFD4",
+        "order": 16,
+        "width": "4",
+        "height": "9",
+        "head": "",
+        "format": "<template>\n  <img :src=\"`http://localhost:1880/${img}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n\n<script>\nexport default {\n  data() { return { i: 0 } },\n  computed: {\n    img() { return [this.msg.image1, this.msg.image2, this.msg.image3][this.i] }\n  },\n  mounted() {\n    setInterval(() => { this.i = (this.i + 1) % 3 }, this.msg.delay)\n  }\n}\n</script>",
+        "noerr": 0,
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 830,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a75bce7df0bb69b1",
+        "type": "change",
         "z": "2d1984899e221b5d",
         "name": "",
-        "pauseType": "delay",
-        "timeout": "3",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 280,
-        "y": 640,
+        "rules": [
+            {
+                "t": "set",
+                "p": "image1",
+                "pt": "msg",
+                "to": "T_cfd",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "image2",
+                "pt": "msg",
+                "to": "H_cfd",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "image3",
+                "pt": "msg",
+                "to": "CO2_cfd",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 600,
         "wires": [
             [
-                "79cfc4a73444e48c"
+                "ba6abb2d89c37272"
+            ]
+        ]
+    },
+    {
+        "id": "4450d4a512a968c0",
+        "type": "inject",
+        "z": "2d1984899e221b5d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 560,
+        "wires": [
+            [
+                "ebfbfe5bbc1ac96f"
+            ]
+        ]
+    },
+    {
+        "id": "ebfbfe5bbc1ac96f",
+        "type": "change",
+        "z": "2d1984899e221b5d",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "10000",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 560,
+        "wires": [
+            [
+                "77dbe67835f435fb",
+                "a75bce7df0bb69b1"
             ]
         ]
     },
@@ -3426,7 +3160,7 @@
         "type": "ui-slider",
         "z": "b7912ebb6b633d34",
         "group": "09a75e9427e7470a",
-        "name": "O2",
+        "name": "CO2",
         "label": "",
         "tooltip": "",
         "order": 13,
@@ -3774,34 +3508,11 @@
         ]
     },
     {
-        "id": "88377491b9e26c42",
-        "type": "exec",
-        "z": "b7912ebb6b633d34",
-        "command": "",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "TpLink Status",
-        "x": 420,
-        "y": 480,
-        "wires": [
-            [
-                "3d19ab8b9fc30378",
-                "c6e0d404b86f0b28"
-            ],
-            [],
-            []
-        ]
-    },
-    {
         "id": "45d33636e15c6ddd",
         "type": "function",
         "z": "b7912ebb6b633d34",
         "name": "function 9",
-        "func": "const basePath = global.get('basePath');\nif (!basePath) return null;   // global not set yet\n\nconst levels = { 0: 'off', 1: 'Partial', 2: 'on' };\nconst level = levels[msg.payload] || 'Partial';\n\nmsg.payload = `python \"${basePath}scripts/plug_control.py\" ${level}`;\nreturn msg;\n//python \"C:/Users/Admin/.node-red/W44C/scripts/plug_control.py\"   ",
+        "func": "const basePath = global.get('basePath');\n\nconst levels = { 0: 'off', 1: 'Partial', 2: 'on' };\nconst level = levels[msg.payload] || 'Partial';\n\nmsg.payload = `python \"${basePath}scripts/plug_control.py\" ${level}`;\nreturn msg;\n//python \"C:/Users/Admin/.node-red/W44C/scripts/plug_control.py\"   ",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -3815,105 +3526,6 @@
                 "a637e9db880e0b6b"
             ]
         ]
-    },
-    {
-        "id": "3d19ab8b9fc30378",
-        "type": "debug",
-        "z": "b7912ebb6b633d34",
-        "name": "debug 5",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 620,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "0e63cf1e66d48020",
-        "type": "function",
-        "z": "b7912ebb6b633d34",
-        "name": "cmd",
-        "func": "const basePath = global.get('basePath');\nif (!basePath) return null;   // global not set yet\n\nmsg.payload = `python \"${basePath}scripts/plug_control.py\" status`;\nreturn msg;\n//python \"C:/Users/Admin/.node-red/W44C/scripts/plug_control.py\" status ",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 250,
-        "y": 480,
-        "wires": [
-            [
-                "88377491b9e26c42"
-            ]
-        ]
-    },
-    {
-        "id": "06577acb0680beaa",
-        "type": "ui-button",
-        "z": "b7912ebb6b633d34",
-        "group": "d12651e09dfe631f",
-        "name": "",
-        "label": "button",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "emulateClick": false,
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "iconPosition": "left",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "buttonColor": "",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 110,
-        "y": 480,
-        "wires": [
-            [
-                "0e63cf1e66d48020"
-            ]
-        ]
-    },
-    {
-        "id": "c6e0d404b86f0b28",
-        "type": "ui-text",
-        "z": "b7912ebb6b633d34",
-        "group": "d12651e09dfe631f",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "TpLink1",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 620,
-        "y": 460,
-        "wires": []
     },
     {
         "id": "94f484cb521d58c0",
@@ -4567,7 +4179,7 @@
                 "t": "set",
                 "p": "filename",
                 "pt": "msg",
-                "to": "   $globalContext(\"basePath\") & \"output/device_frequencies.csv\"",
+                "to": "   $globalContext(\"basePath\") & \"scripts/device_summary.csv\"",
                 "tot": "jsonata"
             }
         ],
@@ -4654,5 +4266,205 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "53a0e4b4e059ed1c",
+        "type": "ui-button",
+        "z": "4b1d47d5ebc33237",
+        "group": "d12651e09dfe631f",
+        "name": "",
+        "label": "Open CO2 dashboard",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 160,
+        "y": 120,
+        "wires": [
+            [
+                "cc70829f45791d86"
+            ]
+        ]
+    },
+    {
+        "id": "cc70829f45791d86",
+        "type": "exec",
+        "z": "4b1d47d5ebc33237",
+        "command": "python -m streamlit run \"c:\\Users\\Admin\\.node-red\\fyp1\\dashboard.py\"",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "cmd",
+        "x": 370,
+        "y": 120,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "88377491b9e26c42",
+        "type": "exec",
+        "z": "4b1d47d5ebc33237",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "TpLink Status",
+        "x": 420,
+        "y": 420,
+        "wires": [
+            [
+                "6f51a0868508a348",
+                "68e7ab6245e9785e",
+                "556de55b2aebca71"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0e63cf1e66d48020",
+        "type": "function",
+        "z": "4b1d47d5ebc33237",
+        "name": "cmd",
+        "func": "const basePath = global.get('basePath');\n\nmsg.payload = `python \"${basePath}scripts/plug_control.py\" status`;\nreturn msg;\n//python \"C:/Users/Admin/.node-red/W44C/scripts/plug_control.py\" status ",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 420,
+        "wires": [
+            [
+                "88377491b9e26c42"
+            ]
+        ]
+    },
+    {
+        "id": "06577acb0680beaa",
+        "type": "ui-button",
+        "z": "4b1d47d5ebc33237",
+        "group": "d12651e09dfe631f",
+        "name": "",
+        "label": "TPLink1",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 120,
+        "y": 420,
+        "wires": [
+            [
+                "0e63cf1e66d48020"
+            ]
+        ]
+    },
+    {
+        "id": "6f51a0868508a348",
+        "type": "function",
+        "z": "4b1d47d5ebc33237",
+        "name": "function 11",
+        "func": "const s = String(msg.payload).trim().toUpperCase();\n\nif (s === \"ON\") msg.payload = 2;\nelse if (s === \"OFF\") msg.payload = 0;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "68e7ab6245e9785e",
+        "type": "ui-text",
+        "z": "4b1d47d5ebc33237",
+        "group": "d12651e09dfe631f",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 650,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "556de55b2aebca71",
+        "type": "debug",
+        "z": "4b1d47d5ebc33237",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 460,
+        "wires": []
     }
 ]

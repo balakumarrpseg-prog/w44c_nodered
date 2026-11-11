@@ -85,7 +85,9 @@ def save_figure(fig, out_path, retries=6):
             time.sleep(0.5 * (attempt + 1))
 
 
-def plot_heatmap(tdata_df, sensor_df, values, title, mn, mx, out_path, stamp='', cbar_label='', cmap='hot'):
+def plot_heatmap(tdata_df, sensor_df, values, title, mn, mx, out_path, stamp='', cbar_label='', cmap='hot', labels=None):
+    """labels: optional list of strings, one per row of sensor_df, shown at each sensor
+    (default: the sensor id)."""
     fig, ax = plt.subplots(figsize=(10, 5))
     sc = ax.scatter(tdata_df['x-coordinate'], tdata_df['y-coordinate'], c=values, cmap=cmap, s=28)
     cbar = fig.colorbar(sc, ax=ax, orientation='horizontal', location='bottom', pad=0.02,
@@ -96,10 +98,16 @@ def plot_heatmap(tdata_df, sensor_df, values, title, mn, mx, out_path, stamp='',
 
     ax.scatter(sensor_df['x-coordinate'], sensor_df['y-coordinate'], c='cyan', edgecolors='black',
                marker='^', s=80, label='Sensors')
-    for _, row in sensor_df.iterrows():
-        ax.annotate(str(int(row['Sensor'])), (row['x-coordinate'], row['y-coordinate']), xytext=(0, 8),
-                    textcoords='offset points', ha='center', fontsize=8, fontweight='bold', color='cyan',
-                    path_effects=[pe.withStroke(linewidth=1, foreground='black')])
+    if labels is None:  # sensor ids: small bold cyan
+        labels = [str(int(s)) for s in sensor_df['Sensor']]
+        text_style = dict(fontsize=8, fontweight='bold', color='cyan',
+                          path_effects=[pe.withStroke(linewidth=1, foreground='black')])
+    else:               # measured values: bigger, thinner, dark, thin white halo for legibility
+        text_style = dict(fontsize=11, fontweight='light', color='#111111',
+                          path_effects=[pe.withStroke(linewidth=1.5, foreground='white')])
+    for label, (_, row) in zip(labels, sensor_df.iterrows()):
+        ax.annotate(label, (row['x-coordinate'], row['y-coordinate']), xytext=(0, 8),
+                    textcoords='offset points', ha='center', **text_style)
 
     ax.set_xticks([])  # no ticks / labels on either axis
     ax.set_yticks([])

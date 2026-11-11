@@ -34,6 +34,9 @@ QUANTITIES = {
     'CO2': ('CO2',         'co2-ppm',             lambda v: v,          'Co2', 'ppm', (380, 700)),
 }
 
+# decimals for the measured value shown at each sensor position (instead of the sensor id)
+LABEL_DECIMALS = {'T': 1, 'H': 1, 'CO2': 0}
+
 # title suffix: "Temperature_cfd", "Temperature_sensor"; '' = blended plot, whose title is "Temperature (unit)"
 METHODS = {'cfd': 'cfd', 'sensors': 'sensor', 'blended': ''}
 
@@ -98,12 +101,15 @@ def main():
         sensors_only, blended = interpolate(cfd_vals, sensor_vals, dists)
 
         results = {'cfd': cfd_vals, 'sensors': sensors_only, 'blended': blended}
+        # value shown at each sensor: the CFD value there on the _cfd image, the measured value otherwise
+        cfd_at_sensors = cfd_vals[dists.argmin(axis=0)]  # CFD node closest to each sensor
+        label_vals = {'cfd': cfd_at_sensors, 'sensors': sensor_vals, 'blended': sensor_vals}
         for method, values in results.items():
             label = METHODS[method]
             title = f'{name}_{label}' if label else f'{name} ({unit})'
             plot_heatmap(cfd_df, sensors, values, title, mn, mx,
                          os.path.join(args.outdir, f'{key}{FILE_SUFFIX[method]}.png'),
-                         stamp, cmap=CMAP)
+                         stamp, cmap=CMAP, labels=[f'{v:.{LABEL_DECIMALS[key]}f}' for v in label_vals[method]])
 
 
 if __name__ == '__main__':

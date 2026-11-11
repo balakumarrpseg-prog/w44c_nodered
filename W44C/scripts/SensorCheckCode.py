@@ -46,15 +46,13 @@ device_df = (
 
 intervals = (device_df["rows"] - 1).clip(lower=1)
 freq_secs = ((device_df["last_timestamp"] - device_df["first_timestamp"]).dt.total_seconds() / intervals).round().astype(int)
-device_df["freq"] = (freq_secs // 60).astype(str).str.zfill(2) + ":" + (freq_secs % 60).astype(str).str.zfill(2)
-device_df = device_df[["device", "rows", "first_timestamp", "last_timestamp", "freq",
+device_df["avg_interval"] = (freq_secs // 60).astype(str).str.zfill(2) + ":" + (freq_secs % 60).astype(str).str.zfill(2)
+device_df = device_df[["device", "rows", "first_timestamp", "last_timestamp", "avg_interval",
                        "co2", "temp", "hum", "last_bat"]]
 
 out = device_df.copy()
 for c in ("first_timestamp", "last_timestamp"):
     out[c] = out[c].dt.strftime("%Y-%m-%d %H:%M:%S")
 
-out_dir = os.path.join(BASE, "output")
-os.makedirs(out_dir, exist_ok=True)
-out.to_csv(os.path.join(out_dir, "device_frequencies.csv"), index=False)
+out.to_csv(os.path.join(SCRIPT_DIR, "device_summary.csv"), index=False)
 print(out.to_json(orient="records"))
