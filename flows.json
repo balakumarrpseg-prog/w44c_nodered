@@ -32,17 +32,17 @@
         "env": []
     },
     {
-        "id": "772c15a29ac21719",
+        "id": "a39ad06cf1817835",
         "type": "tab",
-        "label": "trash",
+        "label": "CO2",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "4b1d47d5ebc33237",
+        "id": "772c15a29ac21719",
         "type": "tab",
-        "label": "FYP",
+        "label": "trash",
         "disabled": false,
         "info": "",
         "env": []
@@ -181,12 +181,14 @@
         "page": "e6aca057ee920b65",
         "width": "9",
         "height": 1,
-        "order": 4,
+        "order": 5,
         "showTitle": false,
         "className": "",
         "visible": false,
         "disabled": "false",
-        "groupType": "default"
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
     },
     {
         "id": "e3a34b5eac2fde25",
@@ -261,17 +263,6 @@
         "sessionExpiry": ""
     },
     {
-        "id": "d6377193a8cfd194",
-        "type": "ui-spacer",
-        "group": "eb960b051f18c793",
-        "name": "spacer",
-        "tooltip": "",
-        "order": 6,
-        "width": 1,
-        "height": 1,
-        "className": ""
-    },
-    {
         "id": "1a4ba42ca9687744",
         "type": "ui-page",
         "name": "Data",
@@ -313,14 +304,16 @@
         "type": "ui-group",
         "name": "1",
         "page": "1a4ba42ca9687744",
-        "width": "10",
+        "width": "6",
         "height": 1,
         "order": 1,
         "showTitle": false,
         "className": "",
         "visible": "true",
         "disabled": "false",
-        "groupType": "default"
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
     },
     {
         "id": "c0ea70a19c2464f1",
@@ -558,7 +551,7 @@
     {
         "id": "7c7a0a7196ecb3e3",
         "type": "ui-page",
-        "name": "FYP",
+        "name": "C02",
         "ui": "f16a3fc6ccd3fac2",
         "path": "/page4",
         "icon": "controller",
@@ -589,15 +582,15 @@
         "tabs": [],
         "order": 4,
         "className": "",
-        "visible": true,
-        "disabled": false
+        "visible": "true",
+        "disabled": "false"
     },
     {
         "id": "d12651e09dfe631f",
         "type": "ui-group",
         "name": "8",
         "page": "7c7a0a7196ecb3e3",
-        "width": "4",
+        "width": "5",
         "height": 1,
         "order": 1,
         "showTitle": false,
@@ -626,6 +619,38 @@
             "groupBorderRadius": "4px",
             "widgetGap": "12px"
         }
+    },
+    {
+        "id": "8e293de994d04549",
+        "type": "ui-group",
+        "name": "Settings",
+        "page": "e6aca057ee920b65",
+        "width": 6,
+        "height": 1,
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "c5b05a9788527522",
+        "type": "ui-group",
+        "name": "Group 10",
+        "page": "7c7a0a7196ecb3e3",
+        "width": 6,
+        "height": 1,
+        "order": 2,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
     },
     {
         "id": "cf9164d970216d4b",
@@ -1054,7 +1079,7 @@
         "value": "payload",
         "valueType": "msg",
         "width": "2",
-        "height": 3,
+        "height": 4,
         "gtype": "gauge-34",
         "gstyle": "needle",
         "title": "Energy",
@@ -1137,7 +1162,7 @@
         "id": "0bff52129623721a",
         "type": "ui-template",
         "z": "4cf08c6380837666",
-        "group": "95f5adb073cbe33c",
+        "group": "8d6957f19cd67a9d",
         "page": "",
         "ui": "",
         "name": "webcam",
@@ -1146,6 +1171,7 @@
         "height": "4",
         "head": "",
         "format": "<template>\n  <div>\n    <video ref=\"video\" autoplay style=\"width: 100%; border-radius: 6px;\"></video>\n  </div>\n</template>\n\n<script>\nexport default {\n  mounted() {\n    navigator.mediaDevices.getUserMedia({ video: true })\n      .then(stream => {\n        this.$refs.video.srcObject = stream;\n      });\n  }\n}\n</script>",
+        "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
@@ -1357,10 +1383,11 @@
         "name": "link out 1",
         "mode": "link",
         "links": [
-            "b37ad1c248a8cff9"
+            "b37ad1c248a8cff9",
+            "46adc331fa737b98"
         ],
-        "x": 185,
-        "y": 320,
+        "x": 195,
+        "y": 380,
         "wires": []
     },
     {
@@ -1546,7 +1573,7 @@
         "type": "function",
         "z": "dda7df2f560971b1",
         "name": "function 3",
-        "func": "const p = msg.payload;\n\nlet rows = context.get('rows') || [];\nrows.unshift({\n    device: p.device,\n    timestamp: p.timestamp,\n    co2: p.co2,\n    temp: p.temp,\n    hum: p.hum,\n    bat: p.bat\n});\nrows = rows.slice(0, 5);\ncontext.set('rows', rows);\n\nmsg.payload = rows;\nreturn msg;",
+        "func": "const p = msg.payload;\n\nlet rows = context.get('rows') || [];\nrows.unshift({\n    device: p.device,\n    timestamp: p.timestamp,\n    co2: p.co2,\n    temp: p.temp,\n    hum: p.hum,\n    bat: p.bat\n});\nrows = rows.slice(0, 10);\ncontext.set('rows', rows);\n\nmsg.payload = rows;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1571,7 +1598,7 @@
         "order": 4,
         "width": 0,
         "height": 0,
-        "maxrows": "5",
+        "maxrows": "20",
         "passthru": false,
         "autocols": true,
         "showSearch": false,
@@ -2213,15 +2240,11 @@
         "winHide": false,
         "oldrc": false,
         "name": "heatmap",
-        "x": 720,
-        "y": 220,
+        "x": 1080,
+        "y": 120,
         "wires": [
-            [
-                "42be87cc961654b5"
-            ],
-            [
-                "420b9c3438c9a7cf"
-            ],
+            [],
+            [],
             []
         ]
     },
@@ -2233,8 +2256,8 @@
         "name": "",
         "label": "Update Images",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": 5,
+        "height": "1",
         "emulateClick": false,
         "tooltip": "",
         "color": "",
@@ -2256,11 +2279,11 @@
         "enablePointerup": false,
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
-        "x": 100,
-        "y": 120,
+        "x": 1280,
+        "y": 280,
         "wires": [
             [
-                "71bd61037b2aabab"
+                "42be87cc961654b5"
             ]
         ]
     },
@@ -2276,8 +2299,8 @@
         "winHide": false,
         "oldrc": false,
         "name": "UpdateSensor",
-        "x": 420,
-        "y": 220,
+        "x": 780,
+        "y": 120,
         "wires": [
             [
                 "539ca4f2b3529ce9"
@@ -2300,17 +2323,19 @@
                 "vt": "str"
             }
         ],
-        "repeat": "60",
+        "repeat": "",
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 110,
+        "payload": "0",
+        "payloadType": "num",
+        "x": 130,
         "y": 40,
         "wires": [
-            []
+            [
+                "6d2d6928a22e1088"
+            ]
         ]
     },
     {
@@ -2332,8 +2357,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1180,
-        "y": 60,
+        "x": 1760,
+        "y": 100,
         "wires": [
             [
                 "3255463bd725e3a0"
@@ -2359,8 +2384,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1180,
-        "y": 100,
+        "x": 1760,
+        "y": 140,
         "wires": [
             [
                 "d4345ea9eb4be25a"
@@ -2375,19 +2400,19 @@
         "page": "",
         "ui": "",
         "name": "T",
-        "order": 2,
+        "order": 9,
         "width": "4",
         "height": "6",
         "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
         "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1370,
-        "y": 60,
+        "x": 1950,
+        "y": 100,
         "wires": [
             []
         ]
@@ -2411,8 +2436,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1180,
-        "y": 140,
+        "x": 1760,
+        "y": 180,
         "wires": [
             [
                 "5102f44997b89255"
@@ -2438,8 +2463,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1180,
-        "y": 260,
+        "x": 1760,
+        "y": 300,
         "wires": [
             [
                 "af87c74fc3c4ae0e"
@@ -2465,8 +2490,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1180,
-        "y": 300,
+        "x": 1760,
+        "y": 340,
         "wires": [
             [
                 "c099055e290f2039"
@@ -2492,8 +2517,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1180,
-        "y": 340,
+        "x": 1760,
+        "y": 380,
         "wires": [
             [
                 "7471fa3f31a1db08"
@@ -2508,19 +2533,19 @@
         "page": "",
         "ui": "",
         "name": "H",
-        "order": 3,
+        "order": 10,
         "width": "4",
         "height": "6",
         "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
         "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1370,
-        "y": 100,
+        "x": 1950,
+        "y": 140,
         "wires": [
             []
         ]
@@ -2533,19 +2558,19 @@
         "page": "",
         "ui": "",
         "name": "co2",
-        "order": 4,
+        "order": 11,
         "width": "4",
         "height": "6",
         "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
         "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1390,
-        "y": 140,
+        "x": 1970,
+        "y": 180,
         "wires": [
             []
         ]
@@ -2558,18 +2583,19 @@
         "page": "",
         "ui": "",
         "name": "T_cfd",
-        "order": 5,
+        "order": 3,
         "width": "4",
-        "height": "9",
+        "height": 6,
         "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
+        "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1370,
-        "y": 260,
+        "x": 1950,
+        "y": 300,
         "wires": [
             []
         ]
@@ -2582,18 +2608,19 @@
         "page": "",
         "ui": "",
         "name": "H_cfd",
-        "order": 6,
+        "order": 4,
         "width": "4",
-        "height": "9",
+        "height": 6,
         "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
+        "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1370,
-        "y": 300,
+        "x": 1950,
+        "y": 340,
         "wires": [
             []
         ]
@@ -2606,18 +2633,19 @@
         "page": "",
         "ui": "",
         "name": "CO2_cfd",
-        "order": 7,
+        "order": 5,
         "width": "4",
-        "height": "9",
+        "height": 6,
         "head": "",
-        "format": "<template>\n  <img v-if=\"msg?.payload\" :src=\"`http://localhost:1880/${msg.payload}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
+        "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1380,
-        "y": 340,
+        "x": 1960,
+        "y": 380,
         "wires": [
             []
         ]
@@ -2634,8 +2662,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 910,
-        "y": 220,
+        "x": 1510,
+        "y": 280,
         "wires": [
             [
                 "b08db562cf826dcb",
@@ -2643,7 +2671,10 @@
                 "32b4f47a61cc5ebf",
                 "eb18a51429fff6bb",
                 "81fb3b0232e5d38d",
-                "36e39b584ebfe0fe"
+                "36e39b584ebfe0fe",
+                "b3878bdc2002a4a3",
+                "2f7c0f0a47fc557d",
+                "59fee61f8bd51a2d"
             ]
         ]
     },
@@ -2659,29 +2690,13 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 230,
-        "y": 220,
+        "x": 590,
+        "y": 120,
         "wires": [
             [
                 "009140933e98f94d"
             ]
         ]
-    },
-    {
-        "id": "420b9c3438c9a7cf",
-        "type": "debug",
-        "z": "2d1984899e221b5d",
-        "name": "debug 4",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 900,
-        "y": 260,
-        "wires": []
     },
     {
         "id": "539ca4f2b3529ce9",
@@ -2695,43 +2710,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 590,
-        "y": 220,
+        "x": 950,
+        "y": 120,
         "wires": [
             [
                 "4d49b7d4d55e0d87"
-            ]
-        ]
-    },
-    {
-        "id": "71bd61037b2aabab",
-        "type": "link out",
-        "z": "2d1984899e221b5d",
-        "name": "link out 2",
-        "mode": "link",
-        "links": [
-            "df775742d3123bf1",
-            "1b06bd9218632f51",
-            "03fc4150424f8c4b",
-            "fda481da00fc2343"
-        ],
-        "x": 435,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "1b06bd9218632f51",
-        "type": "link in",
-        "z": "2d1984899e221b5d",
-        "name": "link in 3",
-        "links": [
-            "71bd61037b2aabab"
-        ],
-        "x": 95,
-        "y": 220,
-        "wires": [
-            [
-                "e0feea07847b9803"
             ]
         ]
     },
@@ -2745,17 +2728,17 @@
         "name": "CFD3",
         "order": 15,
         "width": "4",
-        "height": "9",
+        "height": 6,
         "head": "",
-        "format": "<template>\n  <img :src=\"`http://localhost:1880/${img}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n\n<script>\nexport default {\n  data() { return { i: 0 } },\n  computed: {\n    img() { return [this.msg.image1, this.msg.image2, this.msg.image3][this.i] }\n  },\n  mounted() {\n    setInterval(() => { this.i = (this.i + 1) % 3 }, this.msg.delay)\n  }\n}\n</script>",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
         "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 830,
-        "y": 540,
+        "x": 910,
+        "y": 240,
         "wires": [
             []
         ]
@@ -2793,11 +2776,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 640,
-        "y": 540,
+        "x": 580,
+        "y": 240,
         "wires": [
             [
-                "f38dbffffe38d20d"
+                "8ea05a3c571f6241"
             ]
         ]
     },
@@ -2811,17 +2794,17 @@
         "name": "CFD4",
         "order": 16,
         "width": "4",
-        "height": "9",
+        "height": 6,
         "head": "",
-        "format": "<template>\n  <img :src=\"`http://localhost:1880/${img}.png`\" style=\"width: 100%; border-radius: 6px;\" />\n</template>\n\n<script>\nexport default {\n  data() { return { i: 0 } },\n  computed: {\n    img() { return [this.msg.image1, this.msg.image2, this.msg.image3][this.i] }\n  },\n  mounted() {\n    setInterval(() => { this.i = (this.i + 1) % 3 }, this.msg.delay)\n  }\n}\n</script>",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
         "noerr": 0,
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 830,
-        "y": 600,
+        "x": 910,
+        "y": 320,
         "wires": [
             []
         ]
@@ -2859,16 +2842,52 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 640,
-        "y": 600,
+        "x": 580,
+        "y": 320,
         "wires": [
             [
-                "ba6abb2d89c37272"
+                "fd1b709f48f4c020"
             ]
         ]
     },
     {
-        "id": "4450d4a512a968c0",
+        "id": "21678aec3de25106",
+        "type": "ui-slider",
+        "z": "2d1984899e221b5d",
+        "group": "8e293de994d04549",
+        "name": "",
+        "label": "Image Loop Timer (s)",
+        "tooltip": "",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "always",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 360,
+        "y": 280,
+        "wires": [
+            [
+                "77dbe67835f435fb",
+                "a75bce7df0bb69b1"
+            ]
+        ]
+    },
+    {
+        "id": "797e8bfa64d0642d",
         "type": "inject",
         "z": "2d1984899e221b5d",
         "name": "",
@@ -2886,28 +2905,68 @@
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 210,
-        "y": 560,
+        "payload": "0",
+        "payloadType": "num",
+        "x": 170,
+        "y": 280,
         "wires": [
             [
-                "ebfbfe5bbc1ac96f"
+                "21678aec3de25106"
             ]
         ]
     },
     {
-        "id": "ebfbfe5bbc1ac96f",
+        "id": "8ea05a3c571f6241",
+        "type": "function",
+        "z": "2d1984899e221b5d",
+        "name": "set delay",
+        "func": "clearInterval(context.get('t'));\n\nconst imgs = [msg.image1, msg.image2, msg.image3];\nconst d = Number(msg.payload) * 1000;   // payload in seconds → ms\nlet i = 0;\n\nnode.send({ payload: imgs[0] });\n\nif (d > 0) {\n    context.set('t', setInterval(() => {\n        i = (i + 1) % imgs.length;\n        node.send({ payload: imgs[i] });\n    }, d));\n}\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "// Code added here will be run when the\n// node is being stopped or re-deployed.\nclearInterval(context.get('t'));",
+        "libs": [],
+        "x": 760,
+        "y": 240,
+        "wires": [
+            [
+                "f38dbffffe38d20d"
+            ]
+        ]
+    },
+    {
+        "id": "fd1b709f48f4c020",
+        "type": "function",
+        "z": "2d1984899e221b5d",
+        "name": "set delay",
+        "func": "clearInterval(context.get('t'));\n\nconst imgs = [msg.image1, msg.image2, msg.image3];\nconst d = Number(msg.payload) * 1000;   // payload in seconds → ms\nlet i = 0;\n\nnode.send({ payload: imgs[0] });\n\nif (d > 0) {\n    context.set('t', setInterval(() => {\n        i = (i + 1) % imgs.length;\n        node.send({ payload: imgs[i] });\n    }, d));\n}\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "// Code added here will be run when the\n// node is being stopped or re-deployed.\nclearInterval(context.get('t'));",
+        "libs": [],
+        "x": 760,
+        "y": 320,
+        "wires": [
+            [
+                "ba6abb2d89c37272"
+            ]
+        ]
+    },
+    {
+        "id": "b3878bdc2002a4a3",
         "type": "change",
         "z": "2d1984899e221b5d",
         "name": "",
         "rules": [
             {
                 "t": "set",
-                "p": "delay",
+                "p": "payload",
                 "pt": "msg",
-                "to": "10000",
-                "tot": "num"
+                "to": "T_meas",
+                "tot": "str"
             }
         ],
         "action": "",
@@ -2915,12 +2974,234 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 420,
-        "y": 560,
+        "x": 1760,
+        "y": 460,
         "wires": [
             [
-                "77dbe67835f435fb",
-                "a75bce7df0bb69b1"
+                "4985044a795dcd12"
+            ]
+        ]
+    },
+    {
+        "id": "2f7c0f0a47fc557d",
+        "type": "change",
+        "z": "2d1984899e221b5d",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "H_meas",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1760,
+        "y": 500,
+        "wires": [
+            [
+                "b9c81c89c3cc0fbf"
+            ]
+        ]
+    },
+    {
+        "id": "59fee61f8bd51a2d",
+        "type": "change",
+        "z": "2d1984899e221b5d",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "CO2_meas",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1760,
+        "y": 540,
+        "wires": [
+            [
+                "e6e9e3cbda3298e9"
+            ]
+        ]
+    },
+    {
+        "id": "4985044a795dcd12",
+        "type": "ui-template",
+        "z": "2d1984899e221b5d",
+        "group": "0405b4da69203a75",
+        "page": "",
+        "ui": "",
+        "name": "T_meas",
+        "order": 6,
+        "width": "4",
+        "height": 6,
+        "head": "",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
+        "noerr": 0,
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1960,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b9c81c89c3cc0fbf",
+        "type": "ui-template",
+        "z": "2d1984899e221b5d",
+        "group": "0405b4da69203a75",
+        "page": "",
+        "ui": "",
+        "name": "H_meas",
+        "order": 7,
+        "width": "4",
+        "height": 6,
+        "head": "",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
+        "noerr": 0,
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1960,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e6e9e3cbda3298e9",
+        "type": "ui-template",
+        "z": "2d1984899e221b5d",
+        "group": "0405b4da69203a75",
+        "page": "",
+        "ui": "",
+        "name": "CO2_meas",
+        "order": 8,
+        "width": "4",
+        "height": 6,
+        "head": "",
+        "format": "<template>\n  <img v-if=\"msg?.payload\"\n       :src=\"`/${msg.payload}.png?t=${msg._msgid}`\"\n       style=\"width: 100%; border-radius: 6px;\" />\n</template>",
+        "noerr": 0,
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1970,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac46971493faf9cb",
+        "type": "ui-button",
+        "z": "2d1984899e221b5d",
+        "group": "0405b4da69203a75",
+        "name": "",
+        "label": "Simulate",
+        "order": 2,
+        "width": 6,
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "e0feea07847b9803"
+            ]
+        ]
+    },
+    {
+        "id": "fb1c366f5e81d083",
+        "type": "function",
+        "z": "2d1984899e221b5d",
+        "name": "set delay",
+        "func": "// slider value = seconds between ticks; 0 = stop\nconst secs = Number(msg.payload);\n\n// cancel any running loop first (also handles slider changes)\nclearTimeout(context.get('timer'));\ncontext.set('timer', null);\n\nif (!(secs > 0)) {\n    node.status({ fill: 'grey', shape: 'ring', text: 'stopped' });\n    return null;\n}\n\nnode.status({ fill: 'green', shape: 'dot', text: `every ${secs}s` });\n\nconst tick = () => {\n    node.send({ payload: Date.now(), topic: 'tick' });   // same as inject default\n    context.set('timer', setTimeout(tick, secs * 1000));\n};\ncontext.set('timer', setTimeout(tick, secs * 1000));\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "// Code added here will be run when the\n// node is being stopped or re-deployed.\nclearTimeout(context.get('timer'));\n",
+        "libs": [],
+        "x": 500,
+        "y": 40,
+        "wires": [
+            [
+                "e0feea07847b9803"
+            ]
+        ]
+    },
+    {
+        "id": "6d2d6928a22e1088",
+        "type": "ui-slider",
+        "z": "2d1984899e221b5d",
+        "group": "8e293de994d04549",
+        "name": "",
+        "label": "SImulateTimer (s)",
+        "tooltip": "",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "always",
+        "min": 0,
+        "max": "150",
+        "step": "15",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": true,
+        "x": 330,
+        "y": 40,
+        "wires": [
+            [
+                "fb1c366f5e81d083"
             ]
         ]
     },
@@ -3528,6 +3809,724 @@
         ]
     },
     {
+        "id": "46adc331fa737b98",
+        "type": "link in",
+        "z": "a39ad06cf1817835",
+        "name": "link in 2",
+        "links": [
+            "7655669074d74e44"
+        ],
+        "x": 205,
+        "y": 280,
+        "wires": [
+            [
+                "e0cfbc18c507310d"
+            ]
+        ]
+    },
+    {
+        "id": "e0cfbc18c507310d",
+        "type": "switch",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "property": "payload.device",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "NWS1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "NWS2",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 280,
+        "wires": [
+            [
+                "31e5e5d5a4bf1895"
+            ],
+            [
+                "3b8a5885e32e6e6a"
+            ]
+        ]
+    },
+    {
+        "id": "31e5e5d5a4bf1895",
+        "type": "change",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "co2in",
+                "pt": "flow",
+                "to": "payload.co2",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "b194a38e05cb02f8"
+            ]
+        ]
+    },
+    {
+        "id": "3b8a5885e32e6e6a",
+        "type": "change",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "co2out",
+                "pt": "flow",
+                "to": "payload.co2",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 300,
+        "wires": [
+            [
+                "b194a38e05cb02f8"
+            ]
+        ]
+    },
+    {
+        "id": "48bfb395efb89296",
+        "type": "inject",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "5",
+        "payloadType": "num",
+        "x": 190,
+        "y": 60,
+        "wires": [
+            [
+                "292e8abeae6d2189"
+            ]
+        ]
+    },
+    {
+        "id": "f6c91f1110b69e09",
+        "type": "function",
+        "z": "a39ad06cf1817835",
+        "name": "function 12",
+        "func": "const co2in = parseFloat(flow.get('co2in'));\nconst co2out = parseFloat(flow.get('co2out'));\nconst threshold = parseFloat(flow.get('threshold'));\nconst basePath = global.get('basePath');\n\nif (isNaN(co2in) || isNaN(co2out) || isNaN(threshold)) return null;\n\nconst delta = co2out - co2in;\nconst status = delta > threshold ? \"on\" : \"off\";\nconst time = new Date().toLocaleString('sv-SE');\n\nglobal.set('StatusTPlink1', status);\n\n// --- table (output 1) ---\nconst rows = flow.get('co2rows') || [];\nrows.unshift({\n    \"Time\": time,\n    \"CO2 In\": co2in,\n    \"CO2 Out\": co2out,\n    \"Delta\": delta,\n    \"Status\": status\n});\nif (rows.length > 20) rows.length = 20;\nflow.set('co2rows', rows);\n\nconst tableMsg = { payload: rows };\n\n// --- csv (output 2) ---\nconst csvMsg = {\n    filename: `${basePath}output/co2_log.csv`,\n    payload: `${time},${co2in},${co2out},${delta},${status}`\n};\n\nreturn [tableMsg, csvMsg];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 220,
+        "wires": [
+            [
+                "0dacdf6f76f33f44",
+                "719aaff92ec9e6f7"
+            ],
+            [
+                "04090b5dd07fe44d"
+            ]
+        ]
+    },
+    {
+        "id": "9c10e0919ccdadb8",
+        "type": "ui-chart",
+        "z": "a39ad06cf1817835",
+        "group": "c5b05a9788527522",
+        "name": "Chart Co2",
+        "label": "",
+        "order": 4,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "CO2 (ppm)",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "3",
+        "height": "6",
+        "className": "",
+        "interpolation": "linear",
+        "x": 1050,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "88377491b9e26c42",
+        "type": "exec",
+        "z": "a39ad06cf1817835",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "TpLink Status",
+        "x": 1460,
+        "y": 200,
+        "wires": [
+            [
+                "da5acbdd26328e4a"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0e63cf1e66d48020",
+        "type": "function",
+        "z": "a39ad06cf1817835",
+        "name": "cmd",
+        "func": "const basePath = global.get('basePath');\nconst status = msg.payload;\nif (!basePath || !status) return null;   // global not set, or no status in the message\n\nmsg.payload = `python \"${basePath}scripts/plug_control.py\" ${status}`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 200,
+        "wires": [
+            [
+                "88377491b9e26c42"
+            ]
+        ]
+    },
+    {
+        "id": "68e7ab6245e9785e",
+        "type": "ui-text",
+        "z": "a39ad06cf1817835",
+        "group": "c5b05a9788527522",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 2270,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "0dacdf6f76f33f44",
+        "type": "ui-table",
+        "z": "a39ad06cf1817835",
+        "group": "d12651e09dfe631f",
+        "name": "",
+        "label": "",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": false,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "append",
+        "className": "",
+        "x": 1130,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ed12ad96c4d3cff2",
+        "type": "function",
+        "z": "a39ad06cf1817835",
+        "name": "chart1",
+        "func": "const co2in = parseFloat(flow.get('co2in'));\nconst co2out = parseFloat(flow.get('co2out'));\n\nif (isNaN(co2in) || isNaN(co2out)) return null;\n\nreturn [[\n    { topic: \"CO2 In\",  payload: co2in },\n    { topic: \"CO2 Out\", payload: co2out }\n]];\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 360,
+        "wires": [
+            [
+                "9c10e0919ccdadb8"
+            ]
+        ]
+    },
+    {
+        "id": "292e8abeae6d2189",
+        "type": "ui-text-input",
+        "z": "a39ad06cf1817835",
+        "group": "c5b05a9788527522",
+        "name": "",
+        "label": "Threshold",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "topic": "topic",
+        "topicType": "msg",
+        "mode": "text",
+        "tooltip": "",
+        "delay": 300,
+        "passthru": true,
+        "sendOnDelay": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "sendOnClear": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "x": 380,
+        "y": 60,
+        "wires": [
+            [
+                "68fa010e0f587c03"
+            ]
+        ]
+    },
+    {
+        "id": "68fa010e0f587c03",
+        "type": "change",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "threshold",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 590,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3f5cc7432fda184b",
+        "type": "ui-chart",
+        "z": "a39ad06cf1817835",
+        "group": "c5b05a9788527522",
+        "name": "Chart Delta",
+        "label": "",
+        "order": 5,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Delta (ppm)",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "3",
+        "height": "6",
+        "className": "",
+        "interpolation": "linear",
+        "x": 1050,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f9792477a9b9b731",
+        "type": "function",
+        "z": "a39ad06cf1817835",
+        "name": "chart1",
+        "func": "const co2in = parseFloat(flow.get('co2in'));\nconst co2out = parseFloat(flow.get('co2out'));\nconst threshold = parseFloat(flow.get('threshold'));\n\nif (isNaN(co2in) || isNaN(co2out) || isNaN(threshold)) return null;\n\nreturn [[\n    { topic: \"Delta\",     payload: co2out - co2in },\n    { topic: \"Threshold\", payload: threshold }\n]];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 420,
+        "wires": [
+            [
+                "3f5cc7432fda184b"
+            ]
+        ]
+    },
+    {
+        "id": "b194a38e05cb02f8",
+        "type": "function",
+        "z": "a39ad06cf1817835",
+        "name": "function 11",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 280,
+        "wires": [
+            [
+                "f6c91f1110b69e09",
+                "ed12ad96c4d3cff2",
+                "f9792477a9b9b731"
+            ]
+        ]
+    },
+    {
+        "id": "c3412f72a7a4ddf8",
+        "type": "exec",
+        "z": "a39ad06cf1817835",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "TpLink Status",
+        "x": 2100,
+        "y": 200,
+        "wires": [
+            [
+                "68e7ab6245e9785e"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "f08332ad185592e1",
+        "type": "function",
+        "z": "a39ad06cf1817835",
+        "name": "cmd",
+        "func": "const basePath = global.get('basePath');\nconst status = msg.payload;\nif (!basePath || !status) return null;   // global not set, or no status in the message\n\nmsg.payload = `python \"${basePath}scripts/plug_control.py\" ${status}`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1930,
+        "y": 200,
+        "wires": [
+            [
+                "c3412f72a7a4ddf8"
+            ]
+        ]
+    },
+    {
+        "id": "b3021771638fe685",
+        "type": "ui-button",
+        "z": "a39ad06cf1817835",
+        "group": "c5b05a9788527522",
+        "name": "",
+        "label": "TplinkStatus",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "status",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 1770,
+        "y": 200,
+        "wires": [
+            [
+                "f08332ad185592e1"
+            ]
+        ]
+    },
+    {
+        "id": "719aaff92ec9e6f7",
+        "type": "change",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "StatusTPlink1",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1140,
+        "y": 200,
+        "wires": [
+            [
+                "0e63cf1e66d48020"
+            ]
+        ]
+    },
+    {
+        "id": "da5acbdd26328e4a",
+        "type": "delay",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1620,
+        "y": 200,
+        "wires": [
+            [
+                "b3021771638fe685"
+            ]
+        ]
+    },
+    {
+        "id": "04090b5dd07fe44d",
+        "type": "file",
+        "z": "a39ad06cf1817835",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1120,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac1284fdef977da7",
+        "type": "ui-button",
+        "z": "a39ad06cf1817835",
+        "group": "d12651e09dfe631f",
+        "name": "",
+        "label": "CSV in Folder",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 340,
+        "y": 620,
+        "wires": [
+            [
+                "35bbe9c0fdc4a0c3"
+            ]
+        ]
+    },
+    {
+        "id": "987c109f1eee82fb",
+        "type": "exec",
+        "z": "a39ad06cf1817835",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 710,
+        "y": 620,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "35bbe9c0fdc4a0c3",
+        "type": "function",
+        "z": "a39ad06cf1817835",
+        "name": "cmd",
+        "func": "const basePath = global.get('basePath');\n\nmsg.payload = `explorer ${(basePath + 'output').replace(/\\//g, '\\\\')}`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 620,
+        "wires": [
+            [
+                "987c109f1eee82fb"
+            ]
+        ]
+    },
+    {
         "id": "94f484cb521d58c0",
         "type": "function",
         "z": "772c15a29ac21719",
@@ -3754,7 +4753,7 @@
         "name": "",
         "label": "",
         "tooltip": "",
-        "order": 5,
+        "order": 6,
         "width": 1,
         "height": "1",
         "passthru": false,
@@ -3789,7 +4788,7 @@
         "page": "",
         "ui": "",
         "name": "set T",
-        "order": 6,
+        "order": 7,
         "width": "1",
         "height": "3",
         "head": "",
@@ -3813,7 +4812,7 @@
         "page": "",
         "ui": "",
         "name": "Ventilate",
-        "order": 16,
+        "order": 17,
         "width": "1",
         "height": 4,
         "head": "",
@@ -3919,7 +4918,7 @@
         "page": "",
         "ui": "",
         "name": "Vent2",
-        "order": 15,
+        "order": 16,
         "width": 1,
         "height": "3",
         "head": "",
@@ -3943,7 +4942,7 @@
         "page": "",
         "ui": "",
         "name": "setpointT",
-        "order": 10,
+        "order": 11,
         "width": "1",
         "height": "1",
         "head": "",
@@ -3967,7 +4966,7 @@
         "page": "",
         "ui": "",
         "name": "setpointF",
-        "order": 13,
+        "order": 14,
         "width": "1",
         "height": "1",
         "head": "",
@@ -3991,7 +4990,7 @@
         "page": "",
         "ui": "",
         "name": "setpointV",
-        "order": 12,
+        "order": 13,
         "width": "1",
         "height": "1",
         "head": "",
@@ -4015,7 +5014,7 @@
         "page": "",
         "ui": "",
         "name": "setpointO2",
-        "order": 11,
+        "order": 12,
         "width": "1",
         "height": "1",
         "head": "",
@@ -4039,7 +5038,7 @@
         "name": "",
         "label": "",
         "tooltip": "",
-        "order": 7,
+        "order": 8,
         "width": 1,
         "height": "1",
         "passthru": false,
@@ -4074,7 +5073,7 @@
         "name": "",
         "label": "",
         "tooltip": "",
-        "order": 8,
+        "order": 9,
         "width": 1,
         "height": "1",
         "passthru": false,
@@ -4109,7 +5108,7 @@
         "name": "",
         "label": "",
         "tooltip": "",
-        "order": 14,
+        "order": 15,
         "width": 1,
         "height": "1",
         "passthru": false,
@@ -4144,7 +5143,7 @@
         "name": "",
         "label": "Prediction Horizon",
         "tooltip": "",
-        "order": 9,
+        "order": 10,
         "width": 4,
         "height": "1",
         "passthru": true,
@@ -4266,205 +5265,5 @@
         "wires": [
             []
         ]
-    },
-    {
-        "id": "53a0e4b4e059ed1c",
-        "type": "ui-button",
-        "z": "4b1d47d5ebc33237",
-        "group": "d12651e09dfe631f",
-        "name": "",
-        "label": "Open CO2 dashboard",
-        "order": 3,
-        "width": "2",
-        "height": "1",
-        "emulateClick": false,
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "iconPosition": "left",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "buttonColor": "",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 160,
-        "y": 120,
-        "wires": [
-            [
-                "cc70829f45791d86"
-            ]
-        ]
-    },
-    {
-        "id": "cc70829f45791d86",
-        "type": "exec",
-        "z": "4b1d47d5ebc33237",
-        "command": "python -m streamlit run \"c:\\Users\\Admin\\.node-red\\fyp1\\dashboard.py\"",
-        "addpay": "",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "cmd",
-        "x": 370,
-        "y": 120,
-        "wires": [
-            [],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "88377491b9e26c42",
-        "type": "exec",
-        "z": "4b1d47d5ebc33237",
-        "command": "",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "TpLink Status",
-        "x": 420,
-        "y": 420,
-        "wires": [
-            [
-                "6f51a0868508a348",
-                "68e7ab6245e9785e",
-                "556de55b2aebca71"
-            ],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "0e63cf1e66d48020",
-        "type": "function",
-        "z": "4b1d47d5ebc33237",
-        "name": "cmd",
-        "func": "const basePath = global.get('basePath');\n\nmsg.payload = `python \"${basePath}scripts/plug_control.py\" status`;\nreturn msg;\n//python \"C:/Users/Admin/.node-red/W44C/scripts/plug_control.py\" status ",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 250,
-        "y": 420,
-        "wires": [
-            [
-                "88377491b9e26c42"
-            ]
-        ]
-    },
-    {
-        "id": "06577acb0680beaa",
-        "type": "ui-button",
-        "z": "4b1d47d5ebc33237",
-        "group": "d12651e09dfe631f",
-        "name": "",
-        "label": "TPLink1",
-        "order": 1,
-        "width": "2",
-        "height": "1",
-        "emulateClick": false,
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "iconPosition": "left",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "buttonColor": "",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 120,
-        "y": 420,
-        "wires": [
-            [
-                "0e63cf1e66d48020"
-            ]
-        ]
-    },
-    {
-        "id": "6f51a0868508a348",
-        "type": "function",
-        "z": "4b1d47d5ebc33237",
-        "name": "function 11",
-        "func": "const s = String(msg.payload).trim().toUpperCase();\n\nif (s === \"ON\") msg.payload = 2;\nelse if (s === \"OFF\") msg.payload = 0;\n\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 650,
-        "y": 360,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "68e7ab6245e9785e",
-        "type": "ui-text",
-        "z": "4b1d47d5ebc33237",
-        "group": "d12651e09dfe631f",
-        "order": 2,
-        "width": "2",
-        "height": "1",
-        "name": "",
-        "label": "",
-        "format": "{{msg.payload}}",
-        "layout": "row-left",
-        "style": true,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 650,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "556de55b2aebca71",
-        "type": "debug",
-        "z": "4b1d47d5ebc33237",
-        "name": "debug 5",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 460,
-        "wires": []
     }
 ]
